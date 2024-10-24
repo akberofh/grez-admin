@@ -22,7 +22,7 @@ const Postat = () => {
 
     const fetchItems = async (url, setItems, type) => {
         try {
-            const response = await axios.get(url, { withCredentials: true });
+            const response = await axios.get(url);
             if (type === 'pubg') {
                 setItems(response.data.allPubges);
             } else if (type === 'tiktok') {
