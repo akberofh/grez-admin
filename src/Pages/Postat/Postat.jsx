@@ -46,7 +46,7 @@ const Postat = () => {
         try {
             const response = await fetch(url, {
                 method: 'POST',
-                credentials: 'include',
+                
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -72,7 +72,6 @@ const Postat = () => {
         try {
             const response = await fetch(`${url}${id}`, {
                 method: 'DELETE',
-                credentials: 'include',
             });
     
             if (!response.ok) {
