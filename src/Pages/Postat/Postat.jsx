@@ -62,6 +62,12 @@ const Postat = () => {
             setSuccess(true);
             setFormData({ title: '', price: '' });
             fetchItems(url, setItems); // Reload items after successful submission
+
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000); // 1000ms = 1 saniye
+    
+
         } catch (error) {
             console.error('Error:', error);
             setError('Bir hata oluştu. Lütfen tekrar deneyin.');
