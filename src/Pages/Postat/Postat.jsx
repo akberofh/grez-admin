@@ -195,6 +195,10 @@ const Postat = () => {
                 prevItems.map((item) => (item._id === updatedItem._id ? updatedItem : item))
             );
     
+
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
             setIsEditing(false); // Düzenleme modunu kapat
             setEditingItem(null); // Düzenleme öğesini sıfırla
             setPhoto(null); // Fotoğrafı temizle
@@ -213,8 +217,8 @@ const Postat = () => {
     
         try {
             const formData = new FormData();
-            formData.append('title', form2.title); // form3'teki başlık ve fiyat değerlerini alın
-            formData.append('price', form2.price);
+            formData.append('title', form3.title); // form3'teki başlık ve fiyat değerlerini alın
+            formData.append('price', form3.price);
             if (photo) {
                 formData.append('photo', photo); // Fotoğraf varsa ekleyin
             }
@@ -233,6 +237,9 @@ const Postat = () => {
 
 
     
+            setTimeout(() => {
+                window.location.reload();
+            }, 1000);
             setIsEditing(false); // Düzenleme modunu kapat
             setEditingItem(null); // Düzenleme öğesini sıfırla
             setPhoto(null); // Fotoğrafı temizle
