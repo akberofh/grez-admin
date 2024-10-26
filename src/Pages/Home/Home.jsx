@@ -3,12 +3,12 @@ import Postat from "../Postat/Postat.jsx";
 
 
 
+
 const Home = () => {
  
   return (
     <div>
-    
-      <Postat/>
+   <Postat/>
     </div>
   );
 };

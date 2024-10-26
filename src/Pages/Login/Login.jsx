@@ -18,7 +18,7 @@ const Login = () => {
         setSuccess(false);
 
         try {
-            const response = await axios.post('https://grez-shop.vercel.app/api/users/auth', {
+            const response = await axios.post('http://localhost:7000/api/users/auth', {
                 email,
                 password,
             }, {

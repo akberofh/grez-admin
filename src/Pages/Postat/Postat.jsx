@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons';
 import styles from './Postat.module.css'; // CSS modülü
+import { useDropzone } from 'react-dropzone';
+
 
 const Postat = () => {
     const [form1, setForm1] = useState({ title: '', price: '' }); // PUBG formu
@@ -12,6 +14,7 @@ const Postat = () => {
     const [items2, setItems2] = useState([]); // Fann ürünleri
     const [items3, setItems3] = useState([]); // Tiktok ürünleri
     const [error, setError] = useState('');
+    const [photo, setPhoto] = useState('');
     const [success, setSuccess] = useState(false);
 
     useEffect(() => {
@@ -38,41 +41,56 @@ const Postat = () => {
         }
     };
 
+    const { getRootProps, getInputProps, isDragActive } = useDropzone({
+        accept: 'image/*',
+        maxSize: 20971520, // 20 MB limit
+        onDrop: (acceptedFiles) => {
+            if (acceptedFiles.length > 0) {
+                const file = acceptedFiles[0];
+                if (file.size <= 20971520) {
+                    setPhoto(file);
+                } else {
+                    alert('Dosya boyutu 20 MB limitini aşıyor.');
+                }
+            }
+        }
+    });
+
     const handleFormSubmit = async (e, formData, setFormData, url, setItems) => {
         e.preventDefault();
         setError('');
         setSuccess(false);
 
+        const data = new FormData();
+        data.append('title', formData.title);
+        data.append('price', formData.price);
+        if (photo) {
+            data.append('photo', photo);
+        }
+
         try {
-            const response = await fetch(url, {
-                method: 'POST',
-                
+            const response = await axios.post(url, data, {
                 headers: {
-                    'Content-Type': 'application/json',
+                    'Content-Type': 'multipart/form-data',
                 },
-                body: JSON.stringify(formData),
             });
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-
-            const data = await response.json();
-            console.log('Success:', data);
             setSuccess(true);
             setFormData({ title: '', price: '' });
-            fetchItems(url, setItems); // Reload items after successful submission
+            setPhoto(null); // Fotoğrafı temizle
+            fetchItems(url, setItems); // Öğeleri yeniden yükle
 
             setTimeout(() => {
                 window.location.reload();
-            }, 1000); // 1000ms = 1 saniye
-    
+            }, 1000);
 
         } catch (error) {
             console.error('Error:', error);
             setError('Bir hata oluştu. Lütfen tekrar deneyin.');
         }
     };
+
+    
 
     const handleDelete = async (id, url, setError) => {
         try {
@@ -102,7 +120,13 @@ const Postat = () => {
     return (
         <div className={styles.container}>
             {/* Form 1: PUBG */}
+
             <form onSubmit={(e) => handleFormSubmit(e, form1, setForm1, 'https://grez-shop.vercel.app/api/pubg/postt', setItems1)} className={styles.form}>
+            <div {...getRootProps()} className={styles.dropzone}>
+                <input {...getInputProps()} />
+                {isDragActive ? <p>Dosyayı buraya bırakın...</p> : <p>Fotoğraf yüklemek için tıklayın veya sürükleyin.</p>}
+            </div>
+            {photo && <p>Yüklü fotoğraf: {photo.name}</p>}
                 <h2 className={styles.title}>Form 1: Yeni Post Oluştur (PUBG)</h2>
                 {error && <p className={styles.errorMessage}>{error}</p>}
                 {success && <p className={styles.successMessage}>Post başarılı bir şekilde oluşturuldu!</p>}
@@ -153,6 +177,10 @@ const Postat = () => {
 
             {/* Form 2: Fann */}
             <form onSubmit={(e) => handleFormSubmit(e, form2, setForm2, 'https://grez-shop.vercel.app/api/fann/postt', setItems3)} className={styles.form}>
+            <div {...getRootProps()} className={styles.dropzone}>
+                <input {...getInputProps()} />
+                {isDragActive ? <p>Dosyayı buraya bırakın...</p> : <p>Fotoğraf yüklemek için tıklayın veya sürükleyin.</p>}
+            </div>
                 <h2 className={styles.title}>Form 2: Yeni Post Oluştur (Fann)</h2>
                 {error && <p className={styles.errorMessage}>{error}</p>}
                 {success && <p className={styles.successMessage}>Post başarılı bir şekilde oluşturuldu!</p>}
@@ -203,6 +231,10 @@ const Postat = () => {
 
             {/* Form 3: Tiktok */}
             <form onSubmit={(e) => handleFormSubmit(e, form3, setForm3, 'https://grez-shop.vercel.app/api/tiktok/postt', setItems2)} className={styles.form}>
+            <div {...getRootProps()} className={styles.dropzone}>
+                <input {...getInputProps()} />
+                {isDragActive ? <p>Dosyayı buraya bırakın...</p> : <p>Fotoğraf yüklemek için tıklayın veya sürükleyin.</p>}
+            </div>
                 <h2 className={styles.title}>Form 3: Yeni Post Oluştur (Tiktok)</h2>
                 {error && <p className={styles.errorMessage}>{error}</p>}
                 {success && <p className={styles.successMessage}>Post başarılı bir şekilde oluşturuldu!</p>}

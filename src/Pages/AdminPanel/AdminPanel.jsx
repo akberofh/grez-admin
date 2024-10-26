@@ -1,139 +1,103 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom'; // Yönlendirme için
+import Cookies from 'js-cookie'; // Çerez okumak için
 
 const AdminPanel = () => {
-  const [pubgProducts, setPubgProducts] = useState([]);
-  const [tiktokProducts, setTiktokProducts] = useState([]);
-  const [fanProducts, setFanProducts] = useState([]);
+    const [title, setTitle] = useState('');
+    const [description, setDescription] = useState('');
+    const [error, setError] = useState('');
+    const [success, setSuccess] = useState(false);
+    const navigate = useNavigate(); // Yönlendirme fonksiyonu
 
-  const addPubgProduct = (e) => {
-    e.preventDefault();
-    const title = e.target.titleInp.value;
-    const price = e.target.priceInp.value;
-    setPubgProducts([...pubgProducts, { title, price }]);
-    e.target.reset();
-  };
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setError('');
+        setSuccess(false);
 
-  const addTiktokProduct = (e) => {
-    e.preventDefault();
-    const title = e.target.titleInp.value;
-    const price = e.target.priceInp.value;
-    setTiktokProducts([...tiktokProducts, { title, price }]);
-    e.target.reset();
-  };
+        // const token = Cookies.get('jwt'); // JWT tokenini çerezden al
 
-  const addFanProduct = (e) => {
-    e.preventDefault();
-    const title = e.target.titleFanInp.value;
-    const price = e.target.priceFanInp.value;
-    const image = URL.createObjectURL(e.target.imageFanInp.files[0]);
-    setFanProducts([...fanProducts, { title, price, image }]);
-    e.target.reset();
-  };
+        // try {
+        //     const response = await axios.post('http://localhost:8000/api/tiktok/post', {
+        //         title,
+        //         description,
+        //     }, {
+        //         headers: {
+        //             Authorization: Bearer ${token}, // Tokeni Authorization başlığına ekle
+        //         },
+        //         withCredentials: true, // Cookie'leri göndermek için
+        //     });
 
-  const removeProduct = (setProducts, index) => {
-    setProducts((prev) => prev.filter((_, i) => i !== index));
-  };
+        //     console.log('Post oluşturuldu:', response.data); // Başarılı yanıtı kontrol et
+        //     setSuccess(true);
+        //     navigate('/'); // Başarılı posttan sonra yönlendirme (örneğin ana sayfaya)
 
-  return (
-    <main>
-      <section id="add_pole">
-        <div className="container">
-          <div className="all_add_cc">
-            <form onSubmit={addPubgProduct}>
-              <input type="text" name="titleInp" placeholder="Title" required />
-              <input type="text" name="priceInp" placeholder="Price" required />
-              <button className="gonder" type="submit">Add PUBG</button>
+        // } catch (err) {
+        //     console.log('Hata:', err); // Hata detaylarını kontrol et
+        //     setError('Post oluşturulamadı: ' + (err.response?.data?.message || 'Bir hata oluştu'));
+        // }
+
+
+        fetch('https://akberofh.vercel.app/api/notes/post', {
+            method: 'POST',
+            credentials: 'include', // Cookie'lerin dahil edilmesi için
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                title,
+                description
+            }) 
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log('Success:', data);
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+
+    };
+
+    return (
+        <div className="flex items-center justify-center h-screen">
+            <form onSubmit={handleSubmit} className="bg-white p-6 rounded shadow-md">
+                <h2 className="text-lg font-bold mb-4">Yeni Post Oluştur</h2>
+                {error && <p className="text-red-500 mb-4">{error}</p>}
+                {success && <p className="text-green-500 mb-4">Post başarılı bir şekilde oluşturuldu!</p>}
+
+                <div className="mb-4">
+                    <label htmlFor="title" className="block mb-2">Başlık</label>
+                    <input
+                        type="text"
+                        id="title"
+                        value={title}
+                        onChange={(e) => setTitle(e.target.value)}
+                        required
+                        className="border rounded w-full px-3 py-2"
+                    />
+                </div>
+
+                <div className="mb-4">
+                    <label htmlFor="description" className="block mb-2">Açıklama</label>
+                    <textarea
+                        id="description"
+                        value={description}
+                        onChange={(e) => setDescription(e.target.value)}
+                        required
+                        className="border rounded w-full px-3 py-2"
+                    />
+                </div>
+
+                <button type="submit" className="bg-blue-500 text-white rounded px-4 py-2">Post Oluştur</button>
             </form>
-
-            <form onSubmit={addTiktokProduct}>
-              <input type="text" name="titleInp" placeholder="Title" required />
-              <input type="text" name="priceInp" placeholder="Price" required />
-              <button className="gonder" type="submit">Add Tiktok</button>
-            </form>
-
-            <form onSubmit={addFanProduct}>
-              <input type="text" name="titleFanInp" placeholder="Title" required />
-              <input type="text" name="priceFanInp" placeholder="Price" required />
-              <input type="file" name="imageFanInp" accept="image/*" required />
-              <button className="gonder" type="submit">Add Fan Product</button>
-            </form>
-          </div>
-
-          <ProductSection
-            title="Pubg Products"
-            products={pubgProducts}
-            setProducts={setPubgProducts}
-          />
-          <ProductSection
-            title="Tiktok Products"
-            products={tiktokProducts}
-            setProducts={setTiktokProducts}
-          />
-          <FanProductSection
-            title="Fan Products"
-            products={fanProducts}
-            setProducts={setFanProducts}
-          />
         </div>
-      </section>
-    </main>
-  );
+    );
 };
-
-const ProductSection = ({ title, products, setProducts }) => (
-  <div>
-    <h2>{title}</h2>
-    <table className="table">
-      <thead>
-        <tr>
-          <th scope="col">Product Name</th>
-          <th scope="col">Price</th>
-          <th scope="col">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {products.map((product, index) => (
-          <tr key={index}>
-            <td>{product.title}</td>
-            <td>{product.price}</td>
-            <td>
-              <button onClick={() => removeProduct(setProducts, index)}>Delete</button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-);
-
-const FanProductSection = ({ title, products, setProducts }) => (
-  <div className="fan-section">
-    <h2>{title}</h2>
-    <table className="table">
-      <thead>
-        <tr>
-          <th scope="col">Image</th>
-          <th scope="col">Product Name</th>
-          <th scope="col">Price</th>
-          <th scope="col">Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        {products.map((product, index) => (
-          <tr key={index}>
-            <td>
-              <img src={product.image} alt={product.title} style={{ width: "100px" }} />
-            </td>
-            <td>{product.title}</td>
-            <td>{product.price}</td>
-            <td>
-              <button onClick={() => removeProduct(setProducts, index)}>Delete</button>
-            </td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-  </div>
-);
 
 export default AdminPanel;
