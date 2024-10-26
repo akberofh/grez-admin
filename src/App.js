@@ -1,11 +1,9 @@
 import React from 'react'
-import { ToastContainer } from 'react-toastify'
-import Router from '../src/Pages/Home/Home'
+import Router from '../src/Router/Router'
 
 const App = () => {
   return (
     <div>
-      <ToastContainer/>
       <Router/>
     </div>
   )

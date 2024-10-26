@@ -42,7 +42,6 @@
 
 .input:focus {
     border-color: #3b82f6; /* Blue-500 */
-    ring: 2px solid rgba(59, 130, 246, 0.5); /* Blue-500 with opacity */
 }
 
 .button {
@@ -147,7 +146,6 @@
 
 .input:focus {
     border-color: #3b82f6; /* Blue-500 */
-    ring: 2px solid rgba(59, 130, 246, 0.5); /* Blue-500 with opacity */
 }
 
 .dropzone {

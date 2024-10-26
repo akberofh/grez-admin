@@ -1,6 +1,6 @@
 import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import Home from '../../Home/Home'
+import { BrowserRouter , Route, Routes } from 'react-router-dom'
+import Home from '../../src/Pages/Home/Home.jsx'
 import Postat from '../Pages/Postat/Postat.jsx'
 
 

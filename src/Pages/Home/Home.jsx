@@ -1,5 +1,5 @@
 import React from "react";
-import Postat from "../Postat/Postat.jsx";
+import Login from "../Login/Login";
 
 
 
@@ -8,7 +8,9 @@ const Home = () => {
  
   return (
     <div>
-   <Postat/>
+
+  <Login/>
+  
     </div>
   );
 };

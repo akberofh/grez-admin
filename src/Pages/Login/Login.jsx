@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom'; // Yönlendirme için
-import Cookies from 'js-cookie'; // Çerez okumak için
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -10,7 +9,7 @@ const Login = () => {
     const [success, setSuccess] = useState(false);
     const [isAdmin, setIsAdmin] = useState(false);
 
-    const navigate = useNavigate(); // Yönlendirme fonksiyonu çağırılıyor
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -18,31 +17,25 @@ const Login = () => {
         setSuccess(false);
 
         try {
-            const response = await axios.post('http://localhost:7000/api/users/auth', {
+            const response = await axios.post('https://grez-shop.vercel.app/api/users/auth', {
                 email,
                 password,
-            }, {
-                withCredentials: true, // Cookie'leri göndermek için
             });
 
-            console.log('API yanıtı:', response.data); // Yanıtı kontrol et
+            console.log('API yanıtı:', response.data);
 
-            // Tokeni çerezden al
-            const token = Cookies.get('jwt'); // 'jwt' çerez ismi
-            console.log('Token:', token); // Sadece giriş başarılı olduğunda token'ı kontrol et
-
-            const { userType } = response.data; // Token yoksa, sadece userType alınıyor
+            // API yanıtından userType alınır
+            const { userType } = response.data;
 
             if (userType === 'admin') {
                 setIsAdmin(true);
                 setSuccess(true);
-                navigate('/admin'); // Admin paneline yönlendir
+               <a href={navigate  ('/post')}></a> // Admin paneline yönlendir
             } else {
                 setError('Sadece admin kullanıcılar bu işlemi yapabilir.');
             }
-
         } catch (err) {
-            console.log('Hata:', err); // Hata detaylarını kontrol et
+            console.log('Hata:', err);
             setError('Giriş başarısız: ' + (err.response?.data?.message || 'Bir hata oluştu'));
         }
     };
