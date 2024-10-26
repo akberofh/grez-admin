@@ -134,7 +134,7 @@ const Postat = () => {
         e.preventDefault();
         setError('');
         setSuccess(false);
-    
+
         try {
             const formData = new FormData();
             formData.append('title', form1.title); // form3'teki başlık ve fiyat değerlerini alın
@@ -142,19 +142,19 @@ const Postat = () => {
             if (photo) {
                 formData.append('photo', photo); // Fotoğraf varsa ekleyin
             }
-    
+
             const res = await axios.put(`https://grez-shop.vercel.app/api/pubg/postt/${editingItem._id}`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
-    
+
             // Başarılı bir güncellemeden sonra, güncellenmiş öğeyi alın
             const updatedItem = res.data;
-    
+
             // Mevcut items3 listesini güncelleyerek güncellenmiş öğeyi değiştirin
             setItems1((prevItems) =>
                 prevItems.map((item) => (item._id === updatedItem._id ? updatedItem : item))
             );
-    
+
 
             setTimeout(() => {
                 window.location.reload();
@@ -164,7 +164,7 @@ const Postat = () => {
             setPhoto(null); // Fotoğrafı temizle
             setForm1({ title: '', price: '' }); // Formu sıfırla
             setSuccess(true); // Başarılı mesajını göster
-    
+
         } catch (error) {
             console.error('Güncelleme hatası:', error);
             setError('Güncelleme sırasında bir hata oluştu.');
@@ -174,7 +174,7 @@ const Postat = () => {
         e.preventDefault();
         setError('');
         setSuccess(false);
-    
+
         try {
             const formData = new FormData();
             formData.append('title', form2.title); // form3'teki başlık ve fiyat değerlerini alın
@@ -182,19 +182,19 @@ const Postat = () => {
             if (photo) {
                 formData.append('photo', photo); // Fotoğraf varsa ekleyin
             }
-    
+
             const res = await axios.put(`https://grez-shop.vercel.app/api/fann/postt/${editingItem._id}`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
-    
+
             // Başarılı bir güncellemeden sonra, güncellenmiş öğeyi alın
             const updatedItem = res.data;
-    
+
             // Mevcut items3 listesini güncelleyerek güncellenmiş öğeyi değiştirin
             setItems2((prevItems) =>
                 prevItems.map((item) => (item._id === updatedItem._id ? updatedItem : item))
             );
-    
+
 
             setTimeout(() => {
                 window.location.reload();
@@ -204,7 +204,7 @@ const Postat = () => {
             setPhoto(null); // Fotoğrafı temizle
             setForm2({ title: '', price: '' }); // Formu sıfırla
             setSuccess(true); // Başarılı mesajını göster
-    
+
         } catch (error) {
             console.error('Güncelleme hatası:', error);
             setError('Güncelleme sırasında bir hata oluştu.');
@@ -214,7 +214,7 @@ const Postat = () => {
         e.preventDefault();
         setError('');
         setSuccess(false);
-    
+
         try {
             const formData = new FormData();
             formData.append('title', form3.title); // form3'teki başlık ve fiyat değerlerini alın
@@ -222,21 +222,21 @@ const Postat = () => {
             if (photo) {
                 formData.append('photo', photo); // Fotoğraf varsa ekleyin
             }
-    
+
             const res = await axios.put(`https://grez-shop.vercel.app/api/tiktok/postt/${editingItem._id}`, formData, {
                 headers: { 'Content-Type': 'multipart/form-data' },
             });
-    
+
             // Başarılı bir güncellemeden sonra, güncellenmiş öğeyi alın
             const updatedItem = res.data;
-    
+
             // Mevcut items3 listesini güncelleyerek güncellenmiş öğeyi değiştirin
             setItems3((prevItems) =>
                 prevItems.map((item) => (item._id === updatedItem._id ? updatedItem : item))
             );
 
 
-    
+
             setTimeout(() => {
                 window.location.reload();
             }, 1000);
@@ -245,15 +245,15 @@ const Postat = () => {
             setPhoto(null); // Fotoğrafı temizle
             setForm3({ title: '', price: '' }); // Formu sıfırla
             setSuccess(true); // Başarılı mesajını göster
-    
+
         } catch (error) {
             console.error('Güncelleme hatası:', error);
             setError('Güncelleme sırasında bir hata oluştu.');
         }
     };
-    
-    
-    
+
+
+
     return (
         <div className={styles.container}>
             {/* Form 1: PUBG */}
@@ -298,24 +298,33 @@ const Postat = () => {
                     <ul>
                         {items1.map((item) => (
                             <li key={item._id} className={styles.item}>
-                                <p className="text-gray-700">{item.title} - {item.price} ₺</p>
-                                <button
-                                    onClick={() => handleEdit(item)}
-                                    className={styles.editButton}
-                                >
-                                    <FontAwesomeIcon icon={faEdit} />
-                                </button>
-                                <button
-                                    onClick={() => handleDelete(item._id, 'https://grez-shop.vercel.app/api/pubg/', setItems1)}
-                                    className={styles.deleteButton}
-                                >
-                                    <FontAwesomeIcon icon={faTrash} />
-                                </button>
+                                <img
+                                    src={`data:image/jpeg;base64,${item.photo}`}
+                                    alt={item.title}
+                                    className={styles.image}
+                                />
+                                <div>
+                                    <p className="text-gray-700">{item.title} - {item.price} ₺</p>
+                                    <button
+                                        onClick={() => handleEdit(item)}
+                                        className={styles.editButton}
+                                    >
+                                        <FontAwesomeIcon icon={faEdit} />
+                                    </button>
+                                    <button
+                                        onClick={() => handleDelete(item._id, 'https://grez-shop.vercel.app/api/pubg/', setItems1)}
+                                        className={styles.deleteButton}
+                                    >
+                                        <FontAwesomeIcon icon={faTrash} />
+                                    </button>
+                                </div>
                             </li>
                         ))}
                     </ul>
                 )}
             </div>
+
+
 
 
             {/* Form 3: Tiktok */}

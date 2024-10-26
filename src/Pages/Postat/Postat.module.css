@@ -148,6 +148,21 @@
     border-color: #3b82f6; /* Blue-500 */
 }
 
+.image {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 0.5rem;
+    margin-right: 1rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s;
+}
+
+.image:hover {
+    transform: scale(1.05);
+}
+
+
 .dropzone {
     display: flex;
     align-items: center;
@@ -237,3 +252,112 @@
     color: #4ade80; /* Green-400 */
     margin-bottom: 1rem;
 }
+
+/* Postat.module.css */
+
+.itemList {
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 40rem;
+    transition: transform 0.2s;
+    margin: 1rem 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.item {
+    margin-bottom: 1rem;
+    display: flex;
+ 
+    align-items: center;
+    border-bottom: 1px solid #d1d5db; /* Gray-300 */
+    padding-bottom: 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.item:hover {
+    background-color: #f9fafb; /* Light gray background on hover */
+    border-radius: 8px;
+}
+
+.itemContent {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.item p {
+    font-size: 1rem;
+    color: #374151; /* Dark gray text */
+    margin: 0.5rem 0;
+}
+
+.item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+}
+
+.buttons {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.deleteButton, .editButton {
+    background-color: #ef4444; /* Red for delete */
+    color: white;
+    border-radius: 0.375rem;
+    padding: 0.5rem;
+    font-size: 1rem;
+    transition: background-color 0.2s;
+}
+
+.editButton {
+    background-color: #3b82f6; /* Blue for edit */
+}
+
+.deleteButton:hover {
+    background-color: #dc2626; /* Darker red */
+}
+
+.editButton:hover {
+    background-color: #2563eb; /* Darker blue */
+}
+
+@media (max-width: 768px) {
+    .item {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .item p {
+        font-size: 0.9rem;
+    }
+
+    .buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .itemList {
+        max-width: 100%;
+        padding: 1rem;
+    }
+
+    .item p {
+        font-size: 0.85rem;
+    }
+
+    .buttons {
+        gap: 0.25rem;
+    }
+}
+
