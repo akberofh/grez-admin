@@ -369,7 +369,13 @@ const Postat = () => {
                     <ul>
                         {items3.map((item) => (
                             <li key={item._id} className={styles.item}>
-                                <p className="text-gray-700">{item.title} - {item.price} ₺</p>
+                                 <img
+                                    src={`data:image/jpeg;base64,${item.photo}`}
+                                    alt={item.title}
+                                    className={styles.image}
+                                />
+                              <div>
+                              <p className="text-gray-700">{item.title} - {item.price} ₺</p>
                                 <button
                                     onClick={() => handleEdit(item)}
                                     className={styles.editButton}
@@ -382,6 +388,7 @@ const Postat = () => {
                                 >
                                     <FontAwesomeIcon icon={faTrash} />
                                 </button>
+                              </div>
                             </li>
                         ))}
                     </ul>
@@ -429,7 +436,13 @@ const Postat = () => {
                     <ul>
                         {items2.map((item) => (
                             <li key={item._id} className={styles.item}>
-                                <p className="text-gray-700">{item.title} - {item.price} ₺</p>
+                                  <img
+                                    src={`data:image/jpeg;base64,${item.photo}`}
+                                    alt={item.title}
+                                    className={styles.image}
+                                />
+                              <div>
+                              <p className="text-gray-700">{item.title} - {item.price} ₺</p>
                                 <button
                                     onClick={() => handleEdit(item)}
                                     className={styles.editButton}
@@ -442,6 +455,7 @@ const Postat = () => {
                                 >
                                     <FontAwesomeIcon icon={faTrash} />
                                 </button>
+                              </div>
                             </li>
                         ))}
                     </ul>
